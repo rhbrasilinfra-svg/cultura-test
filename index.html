@@ -557,26 +557,29 @@ fetch("https://formspree.io/f/mnngywer", {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
     nome: estado.nomeUsuario,
-    email: 	rhbrasilinfra@gmail.com,
-    aderencia: calcularAderenciaCultural() + "%",
-    energia: calcularNivelEnergia() + "%",
-    resultados: JSON.stringify(estado.resultados, null, 2)
-  }),
+   // Envia resultados via Formspree (compatível com GitHub Pages)
+const formData = new FormData();
+formData.append("nome", estado.nomeUsuario);
+formData.append("email", "rhbrasilinfra@gmail.com");
+formData.append("aderencia", `${calcularAderenciaCultural()}%`);
+formData.append("energia", `${calcularNivelDeEnergia()}%`);
+formData.append("resultados", JSON.stringify(estado.resultados, null, 2));
+
+fetch("https://formspree.io/f/mnngywer", {
+  method: "POST",
+  body: formData
 })
 .then(response => {
   if (response.ok) {
-    console.log("Resultados enviados com sucesso para o Formspree!");
+    alert("✅ Resultados enviados com sucesso para o RH!");
   } else {
-    console.error("Erro ao enviar resultados:", response.statusText);
+    alert("❌ Erro ao enviar resultados. Verifique o Formspree.");
   }
 })
-.catch(error => console.error("Erro na conexão:", error));
- }
-            
-            document.getElementById('app').innerHTML = html;
-        }
-
-        function startTest() {
+.catch(error => {
+  console.error("Erro:", error);
+  alert("⚠️ Ocorreu um erro de conexão. Tente novamente.");
+});
             state.step = 'phase1';
             render();
         }
