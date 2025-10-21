@@ -556,8 +556,7 @@ fetch("https://formspree.io/f/mnngywer", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    nome: estado.nomeUsuario,
-   // Envia resultados via Formspree (compatível com GitHub Pages)
+  // Envia resultados via Formspree (compatível com GitHub Pages)
 const formData = new FormData();
 formData.append("nome", estado.nomeUsuario);
 formData.append("email", "rhbrasilinfra@gmail.com");
@@ -577,6 +576,10 @@ fetch("https://formspree.io/f/mnngywer", {
   }
 })
 .catch(error => {
+  console.error("Erro:", error);
+  alert("⚠️ Ocorreu um erro de conexão. Tente novamente.");
+});
+
   console.error("Erro:", error);
   alert("⚠️ Ocorreu um erro de conexão. Tente novamente.");
 });
