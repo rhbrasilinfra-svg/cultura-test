@@ -551,7 +551,27 @@
                 html = renderEmail();
             } else if (state.step === 'results') {
                 html = renderResults();
-            }
+           // Envia os resultados automaticamente para o Formspree
+fetch("https://formspree.io/f/mnngywer", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    nome: estado.nomeUsuario,
+    email: estado.emailUsuario,
+    aderencia: calcularAderenciaCultural() + "%",
+    energia: calcularNivelEnergia() + "%",
+    resultados: JSON.stringify(estado.resultados, null, 2)
+  }),
+})
+.then(response => {
+  if (response.ok) {
+    console.log("Resultados enviados com sucesso para o Formspree!");
+  } else {
+    console.error("Erro ao enviar resultados:", response.statusText);
+  }
+})
+.catch(error => console.error("Erro na conexão:", error));
+ }
             
             document.getElementById('app').innerHTML = html;
         }
