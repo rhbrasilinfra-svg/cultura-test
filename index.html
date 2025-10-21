@@ -15,41 +15,20 @@
       { word: 'Confiável', value: 'comprometimento', positive: true },
       { word: 'Dedicado', value: 'comprometimento', positive: true },
       { word: 'Pontual', value: 'comprometimento', positive: true },
-      { word: 'Leal', value: 'comprometimento', positive: true },
       { word: 'Persistente', value: 'comprometimento', positive: true },
-      { word: 'Teimoso', value: 'comprometimento', positive: false },
-      { word: 'Inflexível', value: 'comprometimento', positive: false },
       { word: 'Centralizador', value: 'comprometimento', positive: false },
-
-      { word: 'Cauteloso', value: 'seguranca', positive: true },
       { word: 'Atento aos detalhes', value: 'seguranca', positive: true },
       { word: 'Cuidadoso', value: 'seguranca', positive: true },
       { word: 'Organizado', value: 'seguranca', positive: true },
-      { word: 'Disciplinado', value: 'seguranca', positive: true },
-      { word: 'Lento', value: 'seguranca', positive: false },
-      { word: 'Burocrático', value: 'seguranca', positive: false },
       { word: 'Resistente a mudanças', value: 'seguranca', positive: false },
-
       { word: 'Empático', value: 'ambiente', positive: true },
       { word: 'Colaborativo', value: 'ambiente', positive: true },
-      { word: 'Acolhedor', value: 'ambiente', positive: true },
-      { word: 'Companheiro', value: 'ambiente', positive: true },
       { word: 'Sensível demais', value: 'ambiente', positive: false },
-      { word: 'Indeciso', value: 'ambiente', positive: false },
-
       { word: 'Objetivo', value: 'resultado', positive: true },
-      { word: 'Prático', value: 'resultado', positive: true },
-      { word: 'Determinado', value: 'resultado', positive: true },
-      { word: 'Eficiente', value: 'resultado', positive: true },
       { word: 'Produtivo', value: 'resultado', positive: true },
       { word: 'Ansioso', value: 'resultado', positive: false },
-      { word: 'Impulsivo', value: 'resultado', positive: false },
-
-      { word: 'Curioso', value: 'crescimento', positive: true },
       { word: 'Criativo', value: 'crescimento', positive: true },
       { word: 'Aberto a feedbacks', value: 'crescimento', positive: true },
-      { word: 'Adaptável', value: 'crescimento', positive: true },
-      { word: 'Disperso', value: 'crescimento', positive: false },
       { word: 'Inquieto', value: 'crescimento', positive: false },
     ];
 
@@ -92,87 +71,48 @@
     state.shuffledWords = shuffleArray(words);
 
     function toggleWord(word) {
-      if (state.phase === 1) {
-        if (state.selectedWords1.includes(word)) {
-          state.selectedWords1 = state.selectedWords1.filter(w => w !== word);
-        } else {
-          state.selectedWords1 = [...state.selectedWords1, word];
-        }
+      const selected = state.phase === 1 ? 'selectedWords1' : 'selectedWords2';
+      const list = state[selected];
+      if (list.includes(word)) {
+        state[selected] = list.filter(w => w !== word);
       } else {
-        if (state.selectedWords2.includes(word)) {
-          state.selectedWords2 = state.selectedWords2.filter(w => w !== word);
-        } else {
-          state.selectedWords2 = [...state.selectedWords2, word];
-        }
+        state[selected] = [...list, word];
       }
       render();
     }
 
     function calculateResults() {
-      const scores1 = { comprometimento: 0, seguranca: 0, ambiente: 0, resultado: 0, crescimento: 0 };
-      const scores2 = { comprometimento: 0, seguranca: 0, ambiente: 0, resultado: 0, crescimento: 0 };
+      const scores = { comprometimento: 0, seguranca: 0, ambiente: 0, resultado: 0, crescimento: 0 };
+      const total = { ...scores };
 
-      state.selectedWords1.forEach(wordText => {
-        const word = words.find(w => w.word === wordText);
-        scores1[word.value] += word.positive ? 3 : 1;
-      });
+      for (const sel of state.selectedWords1) {
+        const w = words.find(x => x.word === sel);
+        scores[w.value] += w.positive ? 3 : 1;
+      }
+      for (const sel of state.selectedWords2) {
+        const w = words.find(x => x.word === sel);
+        total[w.value] += w.positive ? 3 : 1;
+      }
 
-      state.selectedWords2.forEach(wordText => {
-        const word = words.find(w => w.word === wordText);
-        scores2[word.value] += word.positive ? 3 : 1;
-      });
+      const nat = {}, adap = {};
+      for (const k in scores) {
+        const t1 = Object.values(scores).reduce((a,b)=>a+b,0)||1;
+        const t2 = Object.values(total).reduce((a,b)=>a+b,0)||1;
+        nat[k] = Math.round((scores[k]/t1)*100);
+        adap[k] = Math.round((total[k]/t2)*100);
+      }
 
-      const total1 = Object.values(scores1).reduce((a, b) => a + b, 0) || 1;
-      const total2 = Object.values(scores2).reduce((a, b) => a + b, 0) || 1;
+      const ader = Math.max(0,100-Math.abs(Object.values(nat).reduce((a,b)=>a+b,0)-Object.values(adap).reduce((a,b)=>a+b,0))/5);
+      const energia = Math.max(0,100-Object.keys(nat).reduce((a,k)=>a+Math.abs(nat[k]-adap[k]),0)/5);
 
-      const percentages1 = {};
-      const percentages2 = {};
-      
-      Object.keys(scores1).forEach(key => {
-        percentages1[key] = Math.round((scores1[key] / total1) * 100);
-        percentages2[key] = Math.round((scores2[key] / total2) * 100);
-      });
-
-      const aderencia = calculateAdherence(percentages1, percentages2);
-      const energia = calculateEnergy(percentages1, percentages2);
-
-      state.results = { 
-        natural: percentages1, 
-        adaptado: percentages2, 
-        aderencia,
-        energia 
-      };
+      state.results = { natural:nat, adaptado:adap, aderencia:Math.round(ader), energia:Math.round(energia) };
       state.step = 'email';
       render();
     }
 
-    function calculateAdherence(natural, adaptado) {
-      const idealProfile = {
-        comprometimento: 22,
-        seguranca: 22,
-        resultado: 22,
-        crescimento: 18,
-        ambiente: 16
-      };
-
-      let totalDiff = 0;
-      Object.keys(idealProfile).forEach(key => {
-        const avgScore = (natural[key] + adaptado[key]) / 2;
-        totalDiff += Math.abs(avgScore - idealProfile[key]);
-      });
-
-      const aderencia = Math.max(0, 100 - (totalDiff / 2));
-      return Math.round(aderencia);
-    }
-
-    function calculateEnergy(natural, adaptado) {
-      let totalDiff = 0;
-      Object.keys(natural).forEach(key => {
-        totalDiff += Math.abs(natural[key] - adaptado[key]);
-      });
-
-      const energia = Math.max(0, 100 - totalDiff);
-      return Math.round(energia);
+    function nextPhase() {
+      if (state.phase === 1) { state.phase = 2; render(); }
+      else calculateResults();
     }
 
     async function sendResults() {
@@ -202,19 +142,12 @@
     }
 
     function validateAndSend() {
-      const name = document.getElementById('userName').value;
-      const email = document.getElementById('userEmail').value;
-      
-      if (!name || !email) {
-        alert('Por favor, preencha todos os campos.');
-        return;
-      }
-      if (!email.includes('@')) {
-        alert('Por favor, insira um email válido.');
-        return;
-      }
-      state.userName = name;
-      state.userEmail = email;
+      const n = document.getElementById('userName').value.trim();
+      const e = document.getElementById('userEmail').value.trim();
+      if (!n || !e) return alert('Preencha todos os campos.');
+      if (!e.includes('@')) return alert('Insira um e-mail válido.');
+      state.userName = n;
+      state.userEmail = e;
       sendResults();
     }
 
@@ -230,11 +163,26 @@
       `;
     }
 
-    function render() {
-      let html = '';
-      if (state.step === 'intro') html = renderIntro();
-      else if (state.step === 'phase1' || state.step === 'phase2') html = '<h1>Fase do teste em construção...</h1>';
-      else if (state.step === 'email') html = `
+    function renderPhase() {
+      const phase = state.phase;
+      const list = phase === 1 ? state.selectedWords1 : state.selectedWords2;
+      return `
+        <div class="min-h-screen p-6 max-w-5xl mx-auto">
+          <h1 class="text-2xl font-bold text-gray-800 mb-4 text-center">Fase ${phase}: ${phase===1?'Quem você é':'Como o trabalho te exige'}</h1>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
+            ${state.shuffledWords.map(w => `
+              <button onclick="toggleWord('${w.word.replace(/'/g,"\\'")}')" class="p-2 text-sm rounded-lg font-medium ${list.includes(w.word)?'bg-blue-600 text-white':'bg-gray-100 hover:bg-blue-100'}">${w.word}</button>
+            `).join('')}
+          </div>
+          <div class="text-center">
+            <button onclick="nextPhase()" class="bg-gradient-to-r from-blue-600 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition">${phase===1?'Próxima Etapa':'Ver Resultados'}</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderEmail() {
+      return `
         <div class="min-h-screen flex items-center justify-center">
           <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full text-center">
             <h1 class="text-2xl font-bold mb-4">Quase lá!</h1>
@@ -244,7 +192,24 @@
           </div>
         </div>
       `;
-      else if (state.step === 'results') html = `<div class="p-8 text-center">✅ Resultados enviados com sucesso!</div>`;
+    }
+
+    function renderResults() {
+      return `
+        <div class="min-h-screen flex flex-col items-center justify-center text-center p-6">
+          <h1 class="text-3xl font-bold text-gray-800 mb-4">✅ Resultados enviados com sucesso!</h1>
+          <p class="text-gray-600 mb-6">Agradecemos por participar do Mapeamento Cultural da Brasil Infra.</p>
+          <button onclick="location.reload()" class="bg-gradient-to-r from-blue-600 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition">Refazer Teste</button>
+        </div>
+      `;
+    }
+
+    function render() {
+      let html = '';
+      if (state.step === 'intro') html = renderIntro();
+      else if (state.step === 'phase1' || state.step === 'phase2') html = renderPhase();
+      else if (state.step === 'email') html = renderEmail();
+      else if (state.step === 'results') html = renderResults();
       document.getElementById("app").innerHTML = html;
     }
 
