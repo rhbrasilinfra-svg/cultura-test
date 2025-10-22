@@ -1407,40 +1407,48 @@
             btn.innerHTML = '<span class="spinner"></span> Enviando...';
             
             const resultado = dadosColaborador.resultado;
-            const confiabilidade = dadosColaborador.analiseConfiabilidade;
-            
-            // Preparar dados para o e-mail
-            const emailData = {
-                nome: dadosColaborador.nome,
-                cpf: dadosColaborador.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
-                data: new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR'),
-                tempoTotal: ((dadosColaborador.tempoFim - dadosColaborador.tempoInicio) / 60000).toFixed(1) + ' minutos',
-                mediaGeral: resultado.mediaGeral,
-                nivelGeral: resultado.nivelGeral.texto,
-                valores: resultado.valores,
-                confiabilidade: {
-                    score: confiabilidade.scoreConfiabilidade,
-                    nivel: confiabilidade.nivel.texto,
-                    indicadores: confiabilidade.indicadores,
-                    alertas: confiabilidade.alertas,
-                    recomendacao: confiabilidade.recomendacaoRH
-                }
-            };
-            
-            // Simular envio (em produção, chamar API real)
-            setTimeout(() => {
-                console.log('📧 Dados que seriam enviados para o RH:');
-                console.log(emailData);
-                
-                alert('✅ Resultado enviado com sucesso para o RH!\n\n' +
-                      'Score de Confiabilidade: ' + confiabilidade.scoreConfiabilidade + '%\n' +
-                      'Nível: ' + confiabilidade.nivel.texto + '\n\n' +
-                      'Você receberá um retorno em breve.');
-                
-                btn.disabled = false;
-                btn.innerHTML = '✓ Resultado Enviado';
-                btn.style.backgroundColor = '#8BC34A';
-            }, 2000);
+           // Enviar resultado real via Formspree
+async function enviarResultado() {
+    const btn = document.getElementById('btn-enviar');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Enviando...';
+
+    const resultado = dadosColaborador.resultado;
+    const confiabilidade = dadosColaborador.analiseConfiabilidade;
+
+    const emailData = {
+        nome: dadosColaborador.nome,
+        cpf: dadosColaborador.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
+        data: new Date().toLocaleString('pt-BR'),
+        mediaGeral: resultado.mediaGeral,
+        nivelGeral: resultado.nivelGeral.texto,
+        confiabilidade: confiabilidade.scoreConfiabilidade,
+        nivelConfiabilidade: confiabilidade.nivel.texto,
+    };
+
+    try {
+        const response = await fetch("https://formspree.io/f/xnnqaoqe", { // 👈 substitua aqui pelo seu endpoint
+            method: "POST",
+            headers: { "Accept": "application/json" },
+            body: JSON.stringify(emailData)
+        });
+
+        if (response.ok) {
+            alert("✅ Resultado enviado com sucesso para o RH!");
+            btn.innerHTML = '✓ Resultado Enviado';
+            btn.style.backgroundColor = '#8BC34A';
+        } else {
+            alert("⚠️ Erro ao enviar o resultado. Verifique o endpoint Formspree.");
+            btn.innerHTML = 'Tentar Enviar Novamente';
+        }
+    } catch (error) {
+        console.error(error);
+        alert("❌ Falha na conexão. Tente novamente mais tarde.");
+        btn.innerHTML = 'Reenviar Resultado';
+    } finally {
+        btn.disabled = false;
+    }
+}
         }
 
         // Máscara de CPF
