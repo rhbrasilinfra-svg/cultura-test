@@ -1448,7 +1448,7 @@ async function enviarResultado() {
         nivelConfiabilidade: confiabilidade.nivel.texto
     };
 
-    try {
+    const resposta = await fetch("https://formspree.io/f/mnngywer", {
         const resposta = await fetch("https://formspree.io/f/xnnqaoqe", { // ❌ Esse link antigo
             method: "POST",
             headers: { "Accept": "application/json" },
