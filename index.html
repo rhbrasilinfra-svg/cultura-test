@@ -1430,34 +1430,40 @@ async function enviarResultado() {
         const response = await fetch("https://formspree.io/f/xnnqaoqe", { // 👈 substitua aqui pelo seu endpoint
             method: "POST",
             headers: { "Accept": "application/json" },
-            body: JSON.stringify(emailData)
+            async function enviarResultado() {
+    const btn = document.getElementById('btn-enviar');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Enviando...';
+
+    const resultado = dadosColaborador.resultado;
+    const confiabilidade = dadosColaborador.analiseConfiabilidade;
+
+    const dados_de_e_mail = {
+        nome: dadosColaborador.nome,
+        cpf: dadosColaborador.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
+        data: new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR'),
+        midiaGeral: resultado.mediaGeral,
+        nivelGeral: resultado.nivelGeral.texto,
+        confiabilidade: confiabilidade.scoreConfiabilidade,
+        nivelConfiabilidade: confiabilidade.nivel.texto
+    };
+
+    try {
+        const resposta = await fetch("https://formspree.io/f/xnnqaoqe", { // ❌ Esse link antigo
+            method: "POST",
+            headers: { "Accept": "application/json" },
+            body: JSON.stringify(dados_de_e_mail)
         });
 
-        if (response.ok) {
+        if (resposta.ok) {
             alert("✅ Resultado enviado com sucesso para o RH!");
-            btn.innerHTML = '✓ Resultado Enviado';
-            btn.style.backgroundColor = '#8BC34A';
         } else {
             alert("⚠️ Erro ao enviar o resultado. Verifique o endpoint Formspree.");
-            btn.innerHTML = 'Tentar Enviar Novamente';
         }
-    } catch (error) {
-        console.error(error);
+    } catch (erro) {
+        console.error(erro);
         alert("❌ Falha na conexão. Tente novamente mais tarde.");
-        btn.innerHTML = 'Reenviar Resultado';
     } finally {
         btn.disabled = false;
     }
 }
-        }
-
-        // Máscara de CPF
-        document.getElementById('cpf').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 11) {
-                e.target.value = value;
-            }
-        });
-    </script>
-</body>
-</html>
