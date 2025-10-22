@@ -218,10 +218,6 @@
             background: #FFFEF5;
         }
 
-        .questao.controle {
-            border-left: 4px solid #9C27B0;
-        }
-
         .questao-header {
             margin-bottom: 15px;
         }
@@ -233,17 +229,6 @@
             border-radius: 6px;
             font-weight: 700;
             font-size: 14px;
-        }
-
-        .questao-tag {
-            display: inline-block;
-            background: #9C27B0;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            margin-left: 8px;
-            font-weight: 600;
         }
 
         .questao h3 {
@@ -596,9 +581,9 @@
 
             <div class="card">
                 <div class="alert-info">
-                    <strong>🔒 Sistema de Validação de Autenticidade</strong>
-                    Esta avaliação utiliza tecnologia avançada de validação de respostas para garantir autenticidade e coerência. 
-                    Responda com sinceridade - não existem respostas certas ou erradas, apenas respostas verdadeiras sobre como você realmente é.
+                    <strong>📋 Instruções Importantes</strong>
+                    Responda com sinceridade e atenção. Não existem respostas certas ou erradas, apenas respostas verdadeiras sobre como você realmente é. 
+                    Suas respostas nos ajudarão a identificar oportunidades de desenvolvimento e adequação de posição.
                 </div>
 
                 <div class="form-group">
@@ -615,8 +600,8 @@
                     <h3>📋 Política de Privacidade e Uso de Dados</h3>
                     <p><strong>Coleta e Uso de Dados:</strong> As informações fornecidas nesta avaliação serão utilizadas exclusivamente para fins de análise de aderência cultural e desenvolvimento profissional.</p>
                     <p><strong>Proteção de Dados:</strong> Seus dados pessoais serão tratados conforme a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).</p>
-                    <p><strong>Validação e Autenticidade:</strong> Este questionário utiliza algoritmos de detecção de padrões de resposta para garantir a qualidade e autenticidade das avaliações.</p>
                     <p><strong>Confidencialidade:</strong> As respostas serão acessadas apenas pela equipe de RH e gestão, mantendo total confidencialidade.</p>
+                    <p><strong>Análise de Resultados:</strong> Os resultados são processados para gerar insights sobre desenvolvimento profissional e adequação cultural.</p>
                 </div>
 
                 <div class="checkbox-group">
@@ -666,11 +651,13 @@
             <!-- Painel de Confiabilidade (exclusivo para RH) -->
             <div class="confiabilidade-panel">
                 <h3>
-                    🔍 Análise de Confiabilidade das Respostas
+                    🔍 Análise Comportamental de Respostas - Exclusivo RH
                     <span class="tooltip">
                         <span class="info-icon">?</span>
                         <span class="tooltiptext">
-                            Este painel é visível apenas para o RH. Analisa padrões de resposta para detectar possíveis inconsistências ou manipulação intencional/não intencional.
+                            Este painel utiliza algoritmos de análise comportamental para detectar padrões de resposta. 
+                            Analisa: tempo de resposta, consistência, desejabilidade social, padrões extremos e inconsistências.
+                            Recomenda-se entrevista complementar quando score < 70%.
                         </span>
                     </span>
                 </h3>
@@ -877,20 +864,11 @@
             questoesEmbaralhadas.forEach((questao, index) => {
                 const questaoDiv = document.createElement('div');
                 questaoDiv.className = 'questao';
-                if (questao.tipo === 'controle') {
-                    questaoDiv.classList.add('controle');
-                }
                 questaoDiv.id = `questao-${questao.id}`;
-
-                let tagHtml = '';
-                if (questao.tipo === 'controle') {
-                    tagHtml = '<span class="questao-tag">VALIDAÇÃO</span>';
-                }
 
                 questaoDiv.innerHTML = `
                     <div class="questao-header">
                         <span class="questao-numero">Questão ${index + 1}</span>
-                        ${tagHtml}
                     </div>
                     <h3>${questao.texto}</h3>
                     <div class="opcoes">
@@ -1401,7 +1379,7 @@
         }
 
         // Enviar resultado
-        function enviarResultado() {
+        async function enviarResultado() {
             const btn = document.getElementById('btn-enviar');
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner"></span> Enviando...';
@@ -1410,37 +1388,132 @@
             const confiabilidade = dadosColaborador.analiseConfiabilidade;
             
             // Preparar dados para o e-mail
-            const emailData = {
-                nome: dadosColaborador.nome,
-                cpf: dadosColaborador.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
-                data: new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR'),
-                tempoTotal: ((dadosColaborador.tempoFim - dadosColaborador.tempoInicio) / 60000).toFixed(1) + ' minutos',
-                mediaGeral: resultado.mediaGeral,
-                nivelGeral: resultado.nivelGeral.texto,
-                valores: resultado.valores,
-                confiabilidade: {
-                    score: confiabilidade.scoreConfiabilidade,
-                    nivel: confiabilidade.nivel.texto,
-                    indicadores: confiabilidade.indicadores,
-                    alertas: confiabilidade.alertas,
-                    recomendacao: confiabilidade.recomendacaoRH
-                }
-            };
+            const tempoTotalMinutos = ((dadosColaborador.tempoFim - dadosColaborador.tempoInicio) / 60000).toFixed(1);
             
-            // Simular envio (em produção, chamar API real)
-            setTimeout(() => {
-                console.log('📧 Dados que seriam enviados para o RH:');
-                console.log(emailData);
+            // Construir corpo do email em HTML
+            let emailHTML = `
+                <h2>📊 Avaliação de Cultura - Brasil Infra</h2>
                 
-                alert('✅ Resultado enviado com sucesso para o RH!\n\n' +
-                      'Score de Confiabilidade: ' + confiabilidade.scoreConfiabilidade + '%\n' +
-                      'Nível: ' + confiabilidade.nivel.texto + '\n\n' +
-                      'Você receberá um retorno em breve.');
+                <h3>👤 Dados do Candidato</h3>
+                <p><strong>Nome:</strong> ${dadosColaborador.nome}</p>
+                <p><strong>CPF:</strong> ${dadosColaborador.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}</p>
+                <p><strong>Data/Hora:</strong> ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}</p>
+                <p><strong>Tempo Total:</strong> ${tempoTotalMinutos} minutos</p>
+                
+                <hr>
+                
+                <h3>🔍 ANÁLISE DE CONFIABILIDADE DAS RESPOSTAS</h3>
+                <p><strong>Score de Confiabilidade:</strong> <span style="font-size: 24px; font-weight: bold; color: ${confiabilidade.nivel.cor}">${confiabilidade.scoreConfiabilidade}%</span></p>
+                <p><strong>Nível:</strong> <span style="background: ${confiabilidade.nivel.cor}; color: white; padding: 5px 10px; border-radius: 5px;">${confiabilidade.nivel.texto}</span></p>
+                
+                <h4>📋 Indicadores Detalhados:</h4>
+                <ul>
+                    <li><strong>Tempo de Resposta:</strong> ${confiabilidade.indicadores.tempo.valor} min - ${confiabilidade.indicadores.tempo.descricao}</li>
+                    <li><strong>Variação de Respostas:</strong> ${confiabilidade.indicadores.desvioPadrao.valor} - ${confiabilidade.indicadores.desvioPadrao.descricao}</li>
+                    <li><strong>Respostas Extremas:</strong> ${confiabilidade.indicadores.extremos.valor} - ${confiabilidade.indicadores.extremos.descricao}</li>
+                    <li><strong>Desejabilidade Social:</strong> ${confiabilidade.indicadores.desejabilidade.valor} - ${confiabilidade.indicadores.desejabilidade.descricao}</li>
+                    <li><strong>Inconsistências:</strong> ${confiabilidade.indicadores.consistencia.valor} - ${confiabilidade.indicadores.consistencia.descricao}</li>
+                </ul>
+                
+                ${confiabilidade.alertas.length > 0 ? `
+                    <h4 style="color: #F44336;">⚠️ ALERTAS DETECTADOS:</h4>
+                    <ul style="color: #D32F2F;">
+                        ${confiabilidade.alertas.map(alerta => `<li>${alerta}</li>`).join('')}
+                    </ul>
+                ` : '<p style="color: #4CAF50;">✅ Nenhum alerta detectado - Respostas parecem confiáveis</p>'}
+                
+                <p style="background: #E3F2FD; padding: 10px; border-left: 4px solid #2196F3; margin-top: 15px;">
+                    <strong>📌 ${confiabilidade.recomendacaoRH}</strong>
+                </p>
+                
+                <hr>
+                
+                <h3>📊 RESULTADO GERAL DE ADERÊNCIA CULTURAL</h3>
+                <p><strong>Score Geral:</strong> <span style="font-size: 28px; font-weight: bold; color: ${resultado.nivelGeral.cor}">${resultado.mediaGeral}%</span></p>
+                <p><strong>Nível:</strong> <span style="background: ${resultado.nivelGeral.cor}; color: white; padding: 5px 10px; border-radius: 5px;">${resultado.nivelGeral.texto}</span> - ${resultado.nivelGeral.descricao}</p>
+                
+                <h4>🎯 Scores por Valor Cultural:</h4>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                    <tr style="background: #2B4366; color: white;">
+                        <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Valor</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Score</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Nível</th>
+                    </tr>
+            `;
+            
+            Object.keys(resultado.valores).forEach(valorKey => {
+                const valor = resultado.valores[valorKey];
+                emailHTML += `
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>${valor.nome}</strong><br><small>${valor.descricao}</small></td>
+                        <td style="padding: 10px; text-align: center; border: 1px solid #ddd; font-size: 20px; font-weight: bold; color: ${valor.nivel.cor}">${valor.percentual}%</td>
+                        <td style="padding: 10px; text-align: center; border: 1px solid #ddd;"><span style="background: ${valor.nivel.cor}; color: white; padding: 5px 10px; border-radius: 5px; font-size: 12px;">${valor.nivel.texto}</span></td>
+                    </tr>
+                `;
+            });
+            
+            emailHTML += `
+                </table>
+                
+                <hr>
+                
+                <p style="margin-top: 20px; color: #666; font-size: 12px;">
+                    <em>Este email foi gerado automaticamente pelo Sistema de Avaliação de Cultura Brasil Infra.</em>
+                </p>
+            `;
+            
+            try {
+                // Preparar FormData (formato correto para Formspree)
+                const formData = new FormData();
+                formData.append('_subject', `📊 Avaliação Cultural - ${dadosColaborador.nome} (Confiabilidade: ${confiabilidade.scoreConfiabilidade}%)`);
+                formData.append('nome', dadosColaborador.nome);
+                formData.append('cpf', dadosColaborador.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'));
+                formData.append('data', new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR'));
+                formData.append('tempoTotal', tempoTotalMinutos + ' minutos');
+                formData.append('scoreConfiabilidade', confiabilidade.scoreConfiabilidade + '%');
+                formData.append('nivelConfiabilidade', confiabilidade.nivel.texto);
+                formData.append('scoreGeral', resultado.mediaGeral + '%');
+                formData.append('nivelGeral', resultado.nivelGeral.texto);
+                formData.append('alertas', confiabilidade.alertas.length > 0 ? confiabilidade.alertas.join(' | ') : 'Nenhum alerta');
+                formData.append('recomendacao', confiabilidade.recomendacaoRH);
+                formData.append('message', emailHTML);
+                
+                // Adicionar detalhes dos valores
+                Object.keys(resultado.valores).forEach(valorKey => {
+                    const valor = resultado.valores[valorKey];
+                    formData.append(`valor_${valorKey}`, `${valor.nome}: ${valor.percentual}% (${valor.nivel.texto})`);
+                });
+                
+                // Enviar para Formspree
+                const response = await fetch('https://formspree.io/f/mnngywen', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('✅ Resultado enviado com sucesso para o RH!\n\n' +
+                          'Score de Confiabilidade: ' + confiabilidade.scoreConfiabilidade + '%\n' +
+                          'Nível: ' + confiabilidade.nivel.texto + '\n\n' +
+                          'Você receberá um retorno em breve.');
+                    
+                    btn.innerHTML = '✓ Resultado Enviado';
+                    btn.style.backgroundColor = '#8BC34A';
+                } else {
+                    throw new Error(data.error || 'Erro no envio do formulário');
+                }
+            } catch (error) {
+                console.error('Erro ao enviar:', error);
+                alert('❌ Erro ao enviar resultado. Por favor, tente novamente ou contate o RH.\n\nDetalhes técnicos: ' + error.message);
                 
                 btn.disabled = false;
-                btn.innerHTML = '✓ Resultado Enviado';
-                btn.style.backgroundColor = '#8BC34A';
-            }, 2000);
+                btn.innerHTML = '🔄 Tentar Novamente';
+                btn.style.backgroundColor = '#F44336';
+            }
         }
 
         // Máscara de CPF
