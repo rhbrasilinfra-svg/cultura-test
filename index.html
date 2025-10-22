@@ -1484,8 +1484,8 @@
                     formData.append(`valor_${valorKey}`, `${valor.nome}: ${valor.percentual}% (${valor.nivel.texto})`);
                 });
                 
-                // Enviar para Formspree
-                const response = await fetch('https://formspree.io/f/mnngywen', {
+                // Enviar para Formspree com o ID correto
+                const response = await fetch('https://formspree.io/f/mnngywer', {
                     method: 'POST',
                     body: formData,
                     headers: {
