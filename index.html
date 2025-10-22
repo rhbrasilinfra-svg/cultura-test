@@ -5,85 +5,1451 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avaliação de Aderência Cultural - Brasil Infra (Com Validação)</title>
     <style>
-        /* --- todo o teu CSS original mantido --- */
-        * {margin:0;padding:0;box-sizing:border-box;}
-        body {font-family:'Segoe UI',Tahoma,Verdana,sans-serif;background:linear-gradient(135deg,#f5f5f5,#e8e8e8);min-height:100vh;padding:20px;}
-        .container{max-width:900px;margin:0 auto;}
-        .header{background:#2B4366;padding:30px;border-radius:12px;margin-bottom:30px;text-align:center;box-shadow:0 8px 16px rgba(0,0,0,0.15);}
-        .header h1{color:#EDD730;font-size:32px;margin-bottom:10px;font-weight:700;}
-        .header h2{color:white;font-size:24px;font-weight:300;}
-        .alert-info{background:#E3F2FD;border-left:4px solid #2196F3;padding:15px;border-radius:8px;margin-bottom:20px;color:#1565C0;font-size:14px;line-height:1.6;}
-        .card{background:white;border-radius:12px;padding:30px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:20px;}
-        label{display:block;color:#2B4366;font-weight:600;margin-bottom:8px;font-size:14px;}
-        input[type="text"]{width:100%;padding:12px;border:2px solid #B3B3B3;border-radius:8px;font-size:16px;transition:border-color .3s;}
-        input[type="text"]:focus{outline:none;border-color:#2B4366;}
-        .checkbox-group{display:flex;align-items:flex-start;margin-top:15px;}
-        .checkbox-group input{width:20px;height:20px;margin-right:10px;margin-top:2px;}
-        .btn{width:100%;padding:16px;background:#EDD730;color:#2B4366;border:none;border-radius:8px;font-size:18px;font-weight:700;cursor:pointer;transition:.3s;}
-        .btn:hover{background:#D4C020;}
-        .hidden{display:none;}
-        .spinner{border:3px solid #f3f3f3;border-top:3px solid #2B4366;border-radius:50%;width:20px;height:20px;animation:spin 1s linear infinite;display:inline-block;margin-right:10px;}
-        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #2B4366;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            color: #EDD730;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header h2 {
+            color: white;
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        .alert-info {
+            background: #E3F2FD;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #1565C0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .alert-info strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #2B4366;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #B3B3B3;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #2B4366;
+        }
+
+        .privacy-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #B3B3B3;
+            margin-bottom: 20px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .privacy-box h3 {
+            color: #2B4366;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .privacy-box p {
+            color: #808080;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: #EDD730;
+            color: #2B4366;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(237, 215, 48, 0.3);
+        }
+
+        .btn:hover {
+            background: #D4C020;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(237, 215, 48, 0.4);
+        }
+
+        .btn:disabled {
+            background: #B3B3B3;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress-bar-container {
+            background: #B3B3B3;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #EDD730 0%, #F4E24E 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 6px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #808080;
+            margin-bottom: 10px;
+        }
+
+        .progress-info strong {
+            color: #2B4366;
+        }
+
+        .timer-box {
+            background: #FFF3CD;
+            border: 2px solid #FFC107;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #856404;
+        }
+
+        .questao {
+            border: 2px solid #B3B3B3;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .questao.respondida {
+            border-color: #EDD730;
+            background: #FFFEF5;
+        }
+
+        .questao.controle {
+            border-left: 4px solid #9C27B0;
+        }
+
+        .questao-header {
+            margin-bottom: 15px;
+        }
+
+        .questao-numero {
+            background: #2B4366;
+            color: #EDD730;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .questao-tag {
+            display: inline-block;
+            background: #9C27B0;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+
+        .questao h3 {
+            color: #2B4366;
+            font-size: 18px;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .opcoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .opcao {
+            flex: 1;
+            text-align: center;
+        }
+
+        .opcao input[type="radio"] {
+            display: none;
+        }
+
+        .opcao label {
+            display: block;
+            padding: 15px 10px;
+            border: 2px solid #B3B3B3;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 14px;
+            background: white;
+        }
+
+        .opcao input[type="radio"]:checked + label {
+            background: #2B4366;
+            color: white;
+            border-color: #2B4366;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(43, 67, 102, 0.3);
+        }
+
+        .opcao label:hover {
+            border-color: #2B4366;
+            transform: translateY(-1px);
+        }
+
+        .escala-legenda {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #808080;
+            padding: 0 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .resultado-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .resultado-header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #2B4366 0%, #3A5A8C 100%);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .resultado-header h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .score-geral {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .percentual-geral {
+            font-size: 64px;
+            font-weight: 700;
+            color: #EDD730;
+        }
+
+        .nivel-badge {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+        }
+
+        /* Painel de Confiabilidade */
+        .confiabilidade-panel {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%);
+            border: 3px solid #9C27B0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .confiabilidade-panel h3 {
+            color: #6A1B9A;
+            font-size: 22px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .confiabilidade-score {
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .confiabilidade-score.alta {
+            color: #4CAF50;
+        }
+
+        .confiabilidade-score.media {
+            color: #FF9800;
+        }
+
+        .confiabilidade-score.baixa {
+            color: #F44336;
+        }
+
+        .indicadores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .indicador-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #9C27B0;
+        }
+
+        .indicador-item.alerta {
+            border-left-color: #FF5722;
+            background: #FFEBEE;
+        }
+
+        .indicador-item.ok {
+            border-left-color: #4CAF50;
+            background: #F1F8E9;
+        }
+
+        .indicador-label {
+            font-weight: 600;
+            color: #424242;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .indicador-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #6A1B9A;
+        }
+
+        .alerta-box {
+            background: #FFEBEE;
+            border-left: 4px solid #F44336;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .alerta-box h4 {
+            color: #C62828;
+            margin-bottom: 8px;
+        }
+
+        .alerta-box ul {
+            margin-left: 20px;
+            color: #D32F2F;
+        }
+
+        .valor-resultado {
+            background: #F5F5F5;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 5px solid #2B4366;
+        }
+
+        .valor-resultado-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .valor-resultado h3 {
+            color: #2B4366;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .valor-resultado-desc {
+            color: #808080;
+            font-size: 14px;
+        }
+
+        .valor-score {
+            text-align: right;
+        }
+
+        .valor-percentual {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .valor-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            margin-top: 5px;
+        }
+
+        .recomendacoes-box {
+            background: #E3F2FD;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .recomendacoes-box h4 {
+            color: #1565C0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .recomendacoes-box ul {
+            margin-left: 20px;
+            color: #424242;
+        }
+
+        .recomendacoes-box li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2B4366;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .info-icon {
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: help;
+            margin-left: 5px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: #555;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .opcoes {
+                flex-direction: column;
+            }
+            
+            .score-geral {
+                flex-direction: column;
+            }
+            
+            .indicadores-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <!-- ETAPA 1 -->
-    <div id="etapa-identificacao">
-        <div class="header">
-            <h1>🏗️ Brasil Infra</h1>
-            <h2>Avaliação de Aderência Cultural</h2>
-        </div>
-        <div class="card">
-            <div class="alert-info"><strong>🔒 Sistema de Validação</strong> Responda com sinceridade - não há respostas certas ou erradas.</div>
-            <label>Nome Completo</label>
-            <input type="text" id="nome" placeholder="Digite seu nome completo" required>
-            <label>CPF (somente números)</label>
-            <input type="text" id="cpf" placeholder="Digite seu CPF" maxlength="11" required>
-            <div class="checkbox-group">
-                <input type="checkbox" id="aceite-lgpd">
-                <label for="aceite-lgpd">Li e aceito a Política de Privacidade</label>
+    <div class="container">
+        <!-- ETAPA 1: Identificação -->
+        <div id="etapa-identificacao">
+            <div class="header">
+                <h1>🏗️ Brasil Infra</h1>
+                <h2>Avaliação de Aderência Cultural</h2>
             </div>
-            <button class="btn" onclick="iniciarAvaliacao()">Iniciar Avaliação</button>
+
+            <div class="card">
+                <div class="alert-info">
+                    <strong>🔒 Sistema de Validação de Autenticidade</strong>
+                    Esta avaliação utiliza tecnologia avançada de validação de respostas para garantir autenticidade e coerência. 
+                    Responda com sinceridade - não existem respostas certas ou erradas, apenas respostas verdadeiras sobre como você realmente é.
+                </div>
+
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+                </div>
+
+                <div class="form-group">
+                    <label>CPF (somente números)</label>
+                    <input type="text" id="cpf" placeholder="Digite seu CPF" maxlength="11" required>
+                </div>
+
+                <div class="privacy-box">
+                    <h3>📋 Política de Privacidade e Uso de Dados</h3>
+                    <p><strong>Coleta e Uso de Dados:</strong> As informações fornecidas nesta avaliação serão utilizadas exclusivamente para fins de análise de aderência cultural e desenvolvimento profissional.</p>
+                    <p><strong>Proteção de Dados:</strong> Seus dados pessoais serão tratados conforme a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).</p>
+                    <p><strong>Validação e Autenticidade:</strong> Este questionário utiliza algoritmos de detecção de padrões de resposta para garantir a qualidade e autenticidade das avaliações.</p>
+                    <p><strong>Confidencialidade:</strong> As respostas serão acessadas apenas pela equipe de RH e gestão, mantendo total confidencialidade.</p>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="aceite-lgpd">
+                    <label for="aceite-lgpd">Li e aceito a Política de Privacidade e autorizo o tratamento dos meus dados conforme a LGPD</label>
+                </div>
+
+                <button class="btn" onclick="iniciarAvaliacao()" id="btn-iniciar">Iniciar Avaliação</button>
+            </div>
+        </div>
+
+        <!-- ETAPA 2: Avaliação -->
+        <div id="etapa-avaliacao" class="hidden">
+            <div class="header">
+                <h1>🏗️ Brasil Infra</h1>
+                <h2>Avaliação de Aderência Cultural</h2>
+            </div>
+
+            <div class="card">
+                <div class="timer-box" id="timer-display">
+                    ⏱️ Tempo decorrido: <span id="tempo-total">0:00</span>
+                </div>
+
+                <div class="progress-info">
+                    <span><strong id="respondidas-count">0</strong> de <strong id="total-count">40</strong> questões respondidas</span>
+                    <span id="percentual-progresso">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                </div>
+
+                <div id="questoes-container">
+                    <!-- As questões serão inseridas aqui dinamicamente -->
+                </div>
+
+                <button class="btn" onclick="finalizarAvaliacao()" id="btn-finalizar" disabled>Finalizar Avaliação</button>
+            </div>
+        </div>
+
+        <!-- ETAPA 3: Resultado -->
+        <div id="etapa-resultado" class="hidden">
+            <div class="header">
+                <h1>🏗️ Brasil Infra</h1>
+                <h2>Resultado da Avaliação</h2>
+            </div>
+
+            <!-- Painel de Confiabilidade (exclusivo para RH) -->
+            <div class="confiabilidade-panel">
+                <h3>
+                    🔍 Análise de Confiabilidade das Respostas
+                    <span class="tooltip">
+                        <span class="info-icon">?</span>
+                        <span class="tooltiptext">
+                            Este painel é visível apenas para o RH. Analisa padrões de resposta para detectar possíveis inconsistências ou manipulação intencional/não intencional.
+                        </span>
+                    </span>
+                </h3>
+
+                <div class="confiabilidade-score" id="score-confiabilidade">
+                    <!-- Score será inserido aqui -->
+                </div>
+
+                <div class="indicadores-grid" id="indicadores-container">
+                    <!-- Indicadores serão inseridos aqui -->
+                </div>
+
+                <div id="alertas-container">
+                    <!-- Alertas serão inseridos aqui se houver -->
+                </div>
+            </div>
+
+            <!-- Resultado Geral -->
+            <div class="resultado-container">
+                <div class="resultado-header">
+                    <h2 id="resultado-nome-colaborador"></h2>
+                    <div class="score-geral">
+                        <div class="percentual-geral" id="percentual-geral">0%</div>
+                        <div>
+                            <div class="nivel-badge" id="nivel-geral"></div>
+                            <div style="margin-top: 10px; font-size: 16px;" id="descricao-nivel"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="valores-container">
+                    <!-- Valores serão inseridos aqui -->
+                </div>
+
+                <button class="btn" onclick="enviarResultado()" id="btn-enviar">Enviar Resultado para o RH</button>
+            </div>
         </div>
     </div>
 
-    <!-- ETAPA 2 -->
-    <div id="etapa-avaliacao" class="hidden">
-        <div class="header">
-            <h1>🏗️ Brasil Infra</h1>
-            <h2>Avaliação em Andamento</h2>
-        </div>
-        <div class="card">
-            <p>⏱️ Tempo decorrido: <span id="tempo-total">0:00</span></p>
-            <div id="questoes-container"></div>
-            <button class="btn" id="btn-finalizar" onclick="finalizarAvaliacao()" disabled>Finalizar Avaliação</button>
-        </div>
-    </div>
+    <script>
+        // Dados do colaborador
+        let dadosColaborador = {
+            nome: '',
+            cpf: '',
+            tempoInicio: null,
+            tempoFim: null,
+            temposPorQuestao: [],
+            respostas: {},
+            resultado: null,
+            analiseConfiabilidade: null
+        };
 
-    <!-- ETAPA 3 -->
-    <div id="etapa-resultado" class="hidden">
-        <div class="header">
-            <h1>🏗️ Brasil Infra</h1>
-            <h2>Resultado da Avaliação</h2>
-        </div>
-        <div class="card">
-            <h3 id="resultado-nome-colaborador"></h3>
-            <p>Média geral: <strong id="percentual-geral">0%</strong></p>
-            <button class="btn" id="btn-enviar" onclick="enviarResultado()">Enviar Resultado para o RH</button>
-        </div>
-    </div>
-</div>
+        // Valores culturais da Brasil Infra
+        const valoresCulturais = {
+            comprometimento: {
+                nome: 'Comprometimento',
+                descricao: 'Dedicação e responsabilidade com resultados',
+                questoes: [1, 2, 3, 19, 27] // IDs das questões que avaliam este valor
+            },
+            trabalho_seguro: {
+                nome: 'Trabalho Seguro',
+                descricao: 'Priorização da segurança em todas as atividades',
+                questoes: [4, 5, 6, 7, 28, 36]
+            },
+            ambiente_saudavel: {
+                nome: 'Ambiente Saudável',
+                descricao: 'Respeito, colaboração e bem-estar no trabalho',
+                questoes: [8, 9, 10, 11, 29, 37]
+            },
+            foco_resultado: {
+                nome: 'Foco em Resultado',
+                descricao: 'Orientação para metas e alta performance',
+                questoes: [12, 13, 14, 15, 30]
+            },
+            mentalidade_crescimento: {
+                nome: 'Mentalidade de Crescimento',
+                descricao: 'Aprendizado contínuo e busca por evolução',
+                questoes: [16, 17, 18, 20, 21, 31]
+            }
+        };
 
-<script>
-let dadosColaborador = { nome:'', cpf:'', tempoInicio:null, tempoFim:null, respostas:{} };
-const questoes = [
-  {id:1,texto:'Dou o meu melhor no trabalho'}, 
-  {id:2,texto:'Cumpro prazos e metas estabelecidas'}
-];
+        // Questões - incluindo questões de controle e questões reversas
+        const questoes = [
+            // COMPROMETIMENTO
+            { id: 1, texto: 'Eu dou o meu melhor em todas as tarefas, mesmo nas mais simples', valor: 'comprometimento', tipo: 'normal' },
+            { id: 2, texto: 'Quando assumo uma responsabilidade, faço questão de cumpri-la até o fim', valor: 'comprometimento', tipo: 'normal' },
+            { id: 3, texto: 'Assumo responsabilidade pelos meus erros sem buscar culpados', valor: 'comprometimento', tipo: 'normal' },
+            
+            // TRABALHO SEGURO
+            { id: 4, texto: 'Sigo todos os procedimentos de segurança, mesmo quando ninguém está olhando', valor: 'trabalho_seguro', tipo: 'normal' },
+            { id: 5, texto: 'Se vejo algo inseguro, sempre comunico imediatamente', valor: 'trabalho_seguro', tipo: 'normal' },
+            { id: 6, texto: 'Nunca tomo atalhos que possam comprometer a segurança', valor: 'trabalho_seguro', tipo: 'normal' },
+            { id: 7, texto: 'Prefiro perder prazo a fazer algo de forma insegura', valor: 'trabalho_seguro', tipo: 'normal' },
+            
+            // AMBIENTE SAUDÁVEL
+            { id: 8, texto: 'Trato todos os colegas com respeito, independente do cargo', valor: 'ambiente_saudavel', tipo: 'normal' },
+            { id: 9, texto: 'Procuro ajudar os colegas quando percebo que estão sobrecarregados', valor: 'ambiente_saudavel', tipo: 'normal' },
+            { id: 10, texto: 'Evito fofocas e conversas que possam prejudicar colegas', valor: 'ambiente_saudavel', tipo: 'normal' },
+            { id: 11, texto: 'Reconheço publicamente o bom trabalho dos meus colegas', valor: 'ambiente_saudavel', tipo: 'normal' },
+            
+            // FOCO EM RESULTADO
+            { id: 12, texto: 'Estabeleço metas claras para meu trabalho e acompanho meu progresso', valor: 'foco_resultado', tipo: 'normal' },
+            { id: 13, texto: 'Busco sempre melhorar meus resultados e superar expectativas', valor: 'foco_resultado', tipo: 'normal' },
+            { id: 14, texto: 'Quando encontro obstáculos, busco soluções ao invés de desistir', valor: 'foco_resultado', tipo: 'normal' },
+            { id: 15, texto: 'Mantenho o foco nas prioridades mesmo com distrações ao redor', valor: 'foco_resultado', tipo: 'normal' },
+            
+            // MENTALIDADE DE CRESCIMENTO
+            { id: 16, texto: 'Encaro erros como oportunidades de aprendizado', valor: 'mentalidade_crescimento', tipo: 'normal' },
+            { id: 17, texto: 'Busco ativamente aprender coisas novas relacionadas ao meu trabalho', valor: 'mentalidade_crescimento', tipo: 'normal' },
+            { id: 18, texto: 'Peço feedback regularmente para melhorar meu desempenho', valor: 'mentalidade_crescimento', tipo: 'normal' },
+            { id: 20, texto: 'Saio da minha zona de conforto para aceitar novos desafios', valor: 'mentalidade_crescimento', tipo: 'normal' },
+            { id: 21, texto: 'Compartilho conhecimento com meus colegas de equipe', valor: 'mentalidade_crescimento', tipo: 'normal' },
+            
+            // QUESTÕES DE CONTROLE - Desejabilidade Social Alta (comportamentos extremamente desejáveis mas improváveis)
+            { id: 22, texto: 'Eu NUNCA cheguei atrasado ao trabalho em toda minha vida profissional', valor: 'comprometimento', tipo: 'controle', subtipo: 'improvavel' },
+            { id: 23, texto: 'Eu sempre cumpro 100% de todas as minhas metas sem exceção', valor: 'foco_resultado', tipo: 'controle', subtipo: 'improvavel' },
+            { id: 24, texto: 'NUNCA tive qualquer conflito com nenhum colega de trabalho', valor: 'ambiente_saudavel', tipo: 'controle', subtipo: 'improvavel' },
+            { id: 25, texto: 'Jamais senti vontade de mudar de emprego ou de função', valor: 'comprometimento', tipo: 'controle', subtipo: 'improvavel' },
+            { id: 26, texto: 'Eu adoro cada segundo do meu trabalho todos os dias', valor: 'comprometimento', tipo: 'controle', subtipo: 'improvavel' },
+            
+            // QUESTÕES DE CONTROLE - Admissão de imperfeições (comportamentos indesejáveis mas comuns/honestos)
+            { id: 27, texto: 'Às vezes procrastino em tarefas que não gosto de fazer', valor: 'comprometimento', tipo: 'controle', subtipo: 'honesto', reversa: true },
+            { id: 28, texto: 'Ocasionalmente tomo pequenos atalhos quando tenho certeza que não há risco', valor: 'trabalho_seguro', tipo: 'controle', subtipo: 'honesto', reversa: true },
+            { id: 29, texto: 'Já fiquei irritado com colegas de trabalho em situações de pressão', valor: 'ambiente_saudavel', tipo: 'controle', subtipo: 'honesto', reversa: true },
+            { id: 30, texto: 'Nem sempre consigo manter 100% de foco o dia todo', valor: 'foco_resultado', tipo: 'controle', subtipo: 'honesto', reversa: true },
+            { id: 31, texto: 'Às vezes evito situações muito desafiadoras por medo de falhar', valor: 'mentalidade_crescimento', tipo: 'controle', subtipo: 'honesto', reversa: true },
+            
+            // PARES CONTRADITÓRIOS (para detectar inconsistências)
+            { id: 32, texto: 'Prefiro trabalhar sozinho e evito colaboração em equipe', valor: 'ambiente_saudavel', tipo: 'contraditorio', par: 9, reversa: true },
+            { id: 33, texto: 'Raramente busco aprender coisas novas, prefiro manter minha rotina', valor: 'mentalidade_crescimento', tipo: 'contraditorio', par: 17, reversa: true },
+            { id: 34, texto: 'Frequentemente deixo tarefas pela metade quando surgem dificuldades', valor: 'comprometimento', tipo: 'contraditorio', par: 2, reversa: true },
+            { id: 35, texto: 'Acho que seguir todos os procedimentos de segurança atrasa o trabalho', valor: 'trabalho_seguro', tipo: 'contraditorio', par: 4, reversa: true },
+            
+            // QUESTÕES REVERSAS ADICIONAIS (formuladas de forma negativa)
+            { id: 36, texto: 'Costumo comunicar problemas de segurança apenas quando são muito graves', valor: 'trabalho_seguro', tipo: 'reversa', reversa: true },
+            { id: 37, texto: 'Evito dar feedback aos colegas para não criar constrangimento', valor: 'ambiente_saudavel', tipo: 'reversa', reversa: true },
+            
+            // QUESTÕES ADICIONAIS DE CONTROLE TEMPORAL
+            { id: 38, texto: 'Nunca tive um dia ruim no trabalho em toda minha carreira', valor: 'comprometimento', tipo: 'controle', subtipo: 'improvavel' },
+            { id: 39, texto: 'Sempre estou 100% motivado, independente das circunstâncias', valor: 'comprometimento', tipo: 'controle', subtipo: 'improvavel' },
+            { id: 40, texto: 'Ocasionalmente tenho dificuldade para me concentrar em tarefas repetitivas', valor: 'foco_resultado', tipo: 'controle', subtipo: 'honesto', reversa: true }
+        ];
 
-function iniciarAvaliacao(){
-  const nome=document.getElementById('nome').value.trim();
-  const cpf=document.getElementById('cpf').value.trim();
-  const aceite=document.getElementById('aceite-lgpd').checked;
-  if(!nome||!cpf||!aceite){aler
+        // Timer
+        let timerInterval;
+
+        function iniciarTimer() {
+            dadosColaborador.tempoInicio = Date.now();
+            timerInterval = setInterval(() => {
+                const tempoDecorrido = Math.floor((Date.now() - dadosColaborador.tempoInicio) / 1000);
+                const minutos = Math.floor(tempoDecorrido / 60);
+                const segundos = tempoDecorrido % 60;
+                document.getElementById('tempo-total').textContent = 
+                    `${minutos}:${segundos.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function pararTimer() {
+            clearInterval(timerInterval);
+            dadosColaborador.tempoFim = Date.now();
+        }
+
+        // Iniciar avaliação
+        function iniciarAvaliacao() {
+            const nome = document.getElementById('nome').value.trim();
+            const cpf = document.getElementById('cpf').value.trim();
+            const aceite = document.getElementById('aceite-lgpd').checked;
+
+            if (!nome || !cpf) {
+                alert('⚠️ Por favor, preencha todos os campos!');
+                return;
+            }
+
+            if (cpf.length !== 11 || !/^\d+$/.test(cpf)) {
+                alert('⚠️ CPF deve conter exatamente 11 números!');
+                return;
+            }
+
+            if (!aceite) {
+                alert('⚠️ É necessário aceitar a Política de Privacidade para prosseguir!');
+                return;
+            }
+
+            dadosColaborador.nome = nome;
+            dadosColaborador.cpf = cpf;
+
+            document.getElementById('etapa-identificacao').classList.add('hidden');
+            document.getElementById('etapa-avaliacao').classList.remove('hidden');
+
+            renderizarQuestoes();
+            iniciarTimer();
+        }
+
+        // Renderizar questões
+        function renderizarQuestoes() {
+            const container = document.getElementById('questoes-container');
+            const totalQuestoes = questoes.length;
+            
+            document.getElementById('total-count').textContent = totalQuestoes;
+
+            // Embaralhar questões para evitar padrões
+            const questoesEmbaralhadas = [...questoes].sort(() => Math.random() - 0.5);
+
+            questoesEmbaralhadas.forEach((questao, index) => {
+                const questaoDiv = document.createElement('div');
+                questaoDiv.className = 'questao';
+                if (questao.tipo === 'controle') {
+                    questaoDiv.classList.add('controle');
+                }
+                questaoDiv.id = `questao-${questao.id}`;
+
+                let tagHtml = '';
+                if (questao.tipo === 'controle') {
+                    tagHtml = '<span class="questao-tag">VALIDAÇÃO</span>';
+                }
+
+                questaoDiv.innerHTML = `
+                    <div class="questao-header">
+                        <span class="questao-numero">Questão ${index + 1}</span>
+                        ${tagHtml}
+                    </div>
+                    <h3>${questao.texto}</h3>
+                    <div class="opcoes">
+                        <div class="opcao">
+                            <input type="radio" id="q${questao.id}-1" name="questao-${questao.id}" value="1" onchange="registrarResposta(${questao.id}, 1)">
+                            <label for="q${questao.id}-1">1<br><small>Discordo totalmente</small></label>
+                        </div>
+                        <div class="opcao">
+                            <input type="radio" id="q${questao.id}-2" name="questao-${questao.id}" value="2" onchange="registrarResposta(${questao.id}, 2)">
+                            <label for="q${questao.id}-2">2<br><small>Discordo</small></label>
+                        </div>
+                        <div class="opcao">
+                            <input type="radio" id="q${questao.id}-3" name="questao-${questao.id}" value="3" onchange="registrarResposta(${questao.id}, 3)">
+                            <label for="q${questao.id}-3">3<br><small>Neutro</small></label>
+                        </div>
+                        <div class="opcao">
+                            <input type="radio" id="q${questao.id}-4" name="questao-${questao.id}" value="4" onchange="registrarResposta(${questao.id}, 4)">
+                            <label for="q${questao.id}-4">4<br><small>Concordo</small></label>
+                        </div>
+                        <div class="opcao">
+                            <input type="radio" id="q${questao.id}-5" name="questao-${questao.id}" value="5" onchange="registrarResposta(${questao.id}, 5)">
+                            <label for="q${questao.id}-5">5<br><small>Concordo totalmente</small></label>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(questaoDiv);
+            });
+        }
+
+        // Registrar resposta
+        function registrarResposta(questaoId, valor) {
+            const tempoResposta = Date.now();
+            
+            if (!dadosColaborador.respostas[questaoId]) {
+                dadosColaborador.temposPorQuestao.push({
+                    questaoId: questaoId,
+                    tempo: tempoResposta
+                });
+            }
+
+            dadosColaborador.respostas[questaoId] = valor;
+
+            document.getElementById(`questao-${questaoId}`).classList.add('respondida');
+
+            atualizarProgresso();
+        }
+
+        // Atualizar progresso
+        function atualizarProgresso() {
+            const totalQuestoes = questoes.length;
+            const respondidas = Object.keys(dadosColaborador.respostas).length;
+            const percentual = Math.round((respondidas / totalQuestoes) * 100);
+
+            document.getElementById('respondidas-count').textContent = respondidas;
+            document.getElementById('percentual-progresso').textContent = percentual + '%';
+            document.getElementById('progress-bar').style.width = percentual + '%';
+
+            if (respondidas === totalQuestoes) {
+                document.getElementById('btn-finalizar').disabled = false;
+            }
+        }
+
+        // Calcular resultado
+        function calcularResultado() {
+            let scores = {};
+            let totalPorValor = {};
+
+            // Inicializar contadores
+            Object.keys(valoresCulturais).forEach(valorKey => {
+                scores[valorKey] = 0;
+                totalPorValor[valorKey] = 0;
+            });
+
+            // Processar respostas
+            questoes.forEach(questao => {
+                if (questao.tipo === 'normal' || questao.tipo === 'reversa' || questao.tipo === 'contraditorio') {
+                    const resposta = dadosColaborador.respostas[questao.id];
+                    if (resposta) {
+                        let valorReal = resposta;
+                        
+                        // Inverter questões reversas
+                        if (questao.reversa) {
+                            valorReal = 6 - resposta; // 5->1, 4->2, 3->3, 2->4, 1->5
+                        }
+
+                        scores[questao.valor] += valorReal;
+                        totalPorValor[questao.valor]++;
+                    }
+                }
+            });
+
+            // Calcular percentuais
+            let resultado = {
+                valores: {},
+                mediaGeral: 0
+            };
+
+            Object.keys(valoresCulturais).forEach(valorKey => {
+                const valor = valoresCulturais[valorKey];
+                const scoreTotal = scores[valorKey];
+                const maxScore = totalPorValor[valorKey] * 5;
+                const percentual = Math.round((scoreTotal / maxScore) * 100);
+
+                resultado.valores[valorKey] = {
+                    nome: valor.nome,
+                    descricao: valor.descricao,
+                    score: scoreTotal,
+                    maxScore: maxScore,
+                    percentual: percentual,
+                    nivel: getNivelAderencia(percentual),
+                    recomendacoes: getRecomendacoes(valorKey, percentual)
+                };
+            });
+
+            // Calcular média geral
+            const valores = Object.values(resultado.valores);
+            resultado.mediaGeral = Math.round(
+                valores.reduce((sum, v) => sum + v.percentual, 0) / valores.length
+            );
+            resultado.nivelGeral = getNivelAderencia(resultado.mediaGeral);
+
+            return resultado;
+        }
+
+        // Análise de confiabilidade
+        function analisarConfiabilidade() {
+            const tempoTotal = (dadosColaborador.tempoFim - dadosColaborador.tempoInicio) / 1000; // em segundos
+            const tempoMinutos = tempoTotal / 60;
+            
+            // 1. Análise de tempo
+            const tempoIdealMin = 3; // 3 minutos
+            const tempoIdealMax = 20; // 20 minutos
+            const tempoMuitoRapido = tempoMinutos < tempoIdealMin;
+            const tempoMuitoLento = tempoMinutos > tempoIdealMax;
+            const tempoAdequado = !tempoMuitoRapido && !tempoMuitoLento;
+
+            // 2. Análise de padrão de respostas
+            const respostasArray = Object.values(dadosColaborador.respostas);
+            const media = respostasArray.reduce((a, b) => a + b, 0) / respostasArray.length;
+            
+            // Calcular desvio padrão
+            const variancia = respostasArray.reduce((sum, val) => sum + Math.pow(val - media, 2), 0) / respostasArray.length;
+            const desvioPadrao = Math.sqrt(variancia);
+            
+            // Desvio muito baixo indica respostas muito uniformes (possível automático)
+            const padraoMuitoUniforme = desvioPadrao < 0.8;
+
+            // 3. Análise de extremos (muitas respostas 1 ou 5)
+            const count1 = respostasArray.filter(r => r === 1).length;
+            const count5 = respostasArray.filter(r => r === 5).length;
+            const percentualExtremos = ((count1 + count5) / respostasArray.length) * 100;
+            const muitosExtremos = percentualExtremos > 70;
+
+            // 4. Análise de desejabilidade social (questões de controle)
+            let scoreDesejabilidade = 0;
+            let totalControle = 0;
+
+            questoes.forEach(questao => {
+                if (questao.tipo === 'controle') {
+                    const resposta = dadosColaborador.respostas[questao.id];
+                    if (resposta) {
+                        totalControle++;
+                        if (questao.subtipo === 'improvavel') {
+                            // Respostas 4 ou 5 indicam desejabilidade social alta
+                            if (resposta >= 4) scoreDesejabilidade += 2;
+                            else if (resposta === 3) scoreDesejabilidade += 1;
+                        } else if (questao.subtipo === 'honesto') {
+                            // Respostas 1 ou 2 (negando imperfeições) indicam desejabilidade
+                            if (resposta <= 2) scoreDesejabilidade += 2;
+                            else if (resposta === 3) scoreDesejabilidade += 1;
+                        }
+                    }
+                }
+            });
+
+            const desejabilidadePercentual = (scoreDesejabilidade / (totalControle * 2)) * 100;
+            const desejabilidadeMuitoAlta = desejabilidadePercentual > 60;
+
+            // 5. Análise de consistência (pares contraditórios)
+            let inconsistencias = 0;
+            
+            questoes.forEach(questao => {
+                if (questao.tipo === 'contraditorio' && questao.par) {
+                    const respostaAtual = dadosColaborador.respostas[questao.id];
+                    const respostaPar = dadosColaborador.respostas[questao.par];
+                    
+                    if (respostaAtual && respostaPar) {
+                        // Inverter resposta da questão contraditória para comparar
+                        const respostaAtualInvertida = 6 - respostaAtual;
+                        const diferenca = Math.abs(respostaAtualInvertida - respostaPar);
+                        
+                        // Diferença maior que 2 pontos indica inconsistência
+                        if (diferenca > 2) {
+                            inconsistencias++;
+                        }
+                    }
+                }
+            });
+
+            const muitasInconsistencias = inconsistencias >= 3;
+
+            // 6. Calcular score geral de confiabilidade
+            let penalidades = 0;
+            if (tempoMuitoRapido) penalidades += 20;
+            if (tempoMuitoLento) penalidades += 10;
+            if (padraoMuitoUniforme) penalidades += 15;
+            if (muitosExtremos) penalidades += 15;
+            if (desejabilidadeMuitoAlta) penalidades += 25;
+            if (muitasInconsistencias) penalidades += 15;
+
+            const scoreConfiabilidade = Math.max(0, 100 - penalidades);
+
+            // 7. Determinar nível de confiabilidade
+            let nivelConfiabilidade;
+            if (scoreConfiabilidade >= 85) {
+                nivelConfiabilidade = { classe: 'alta', texto: 'ALTA CONFIABILIDADE', cor: '#4CAF50' };
+            } else if (scoreConfiabilidade >= 70) {
+                nivelConfiabilidade = { classe: 'media', texto: 'CONFIABILIDADE MODERADA', cor: '#FF9800' };
+            } else {
+                nivelConfiabilidade = { classe: 'baixa', texto: 'BAIXA CONFIABILIDADE', cor: '#F44336' };
+            }
+
+            // 8. Gerar alertas
+            const alertas = [];
+            if (tempoMuitoRapido) {
+                alertas.push('Tempo de resposta muito rápido - possível falta de reflexão nas respostas');
+            }
+            if (tempoMuitoLento) {
+                alertas.push('Tempo de resposta muito lento - possível dificuldade de compreensão ou distrações');
+            }
+            if (padraoMuitoUniforme) {
+                alertas.push('Padrão de respostas muito uniforme - possível resposta automática ou desatenta');
+            }
+            if (muitosExtremos) {
+                alertas.push('Excesso de respostas extremas (1 ou 5) - possível polarização nas respostas');
+            }
+            if (desejabilidadeMuitoAlta) {
+                alertas.push('Alta desejabilidade social detectada - candidato pode estar tentando dar uma imagem excessivamente positiva');
+            }
+            if (muitasInconsistencias) {
+                alertas.push('Inconsistências detectadas entre respostas contraditórias - possível falta de sinceridade ou atenção');
+            }
+
+            return {
+                scoreConfiabilidade: scoreConfiabilidade,
+                nivel: nivelConfiabilidade,
+                indicadores: {
+                    tempo: {
+                        valor: tempoMinutos.toFixed(1),
+                        status: tempoAdequado ? 'ok' : 'alerta',
+                        label: 'Tempo Total',
+                        descricao: tempoMuitoRapido ? 'Muito rápido' : tempoMuitoLento ? 'Muito lento' : 'Adequado'
+                    },
+                    desvioPadrao: {
+                        valor: desvioPadrao.toFixed(2),
+                        status: padraoMuitoUniforme ? 'alerta' : 'ok',
+                        label: 'Variação de Respostas',
+                        descricao: padraoMuitoUniforme ? 'Muito uniforme' : 'Adequada'
+                    },
+                    extremos: {
+                        valor: percentualExtremos.toFixed(0) + '%',
+                        status: muitosExtremos ? 'alerta' : 'ok',
+                        label: 'Respostas Extremas',
+                        descricao: muitosExtremos ? 'Excesso de extremos' : 'Distribuição normal'
+                    },
+                    desejabilidade: {
+                        valor: desejabilidadePercentual.toFixed(0) + '%',
+                        status: desejabilidadeMuitoAlta ? 'alerta' : 'ok',
+                        label: 'Desejabilidade Social',
+                        descricao: desejabilidadeMuitoAlta ? 'Muito alta' : 'Normal'
+                    },
+                    consistencia: {
+                        valor: inconsistencias,
+                        status: muitasInconsistencias ? 'alerta' : 'ok',
+                        label: 'Inconsistências',
+                        descricao: muitasInconsistencias ? inconsistencias + ' detectadas' : 'Respostas consistentes'
+                    }
+                },
+                alertas: alertas,
+                recomendacaoRH: scoreConfiabilidade < 70 ? 
+                    'RECOMENDAÇÃO: Realizar entrevista comportamental complementar para validar respostas.' :
+                    scoreConfiabilidade < 85 ?
+                    'SUGESTÃO: Considerar entrevista adicional para esclarecer alguns pontos.' :
+                    'Respostas parecem confiáveis e autênticas.'
+            };
+        }
+
+        // Finalizar avaliação
+        function finalizarAvaliacao() {
+            pararTimer();
+            
+            dadosColaborador.resultado = calcularResultado();
+            dadosColaborador.analiseConfiabilidade = analisarConfiabilidade();
+            
+            mostrarResultado();
+        }
+
+        // Obter nível de aderência
+        function getNivelAderencia(percentual) {
+            if (percentual >= 85) return { texto: 'Excelente', cor: '#4CAF50', descricao: 'Fortemente alinhado' };
+            if (percentual >= 70) return { texto: 'Bom', cor: '#8BC34A', descricao: 'Bem alinhado' };
+            if (percentual >= 55) return { texto: 'Adequado', cor: '#B3B3B3', descricao: 'Parcialmente alinhado' };
+            if (percentual >= 40) return { texto: 'Em desenvolvimento', cor: '#FF9800', descricao: 'Precisa atenção' };
+            return { texto: 'Necessita desenvolvimento', cor: '#F44336', descricao: 'Requer ação imediata' };
+        }
+
+        // Obter recomendações
+        function getRecomendacoes(valorId, percentual) {
+            const recomendacoesPorValor = {
+                comprometimento: {
+                    baixo: [
+                        'Estabeleça metas pessoais alinhadas aos objetivos da empresa',
+                        'Pratique a gestão de tempo e priorização de tarefas',
+                        'Busque entender o impacto do seu trabalho nos resultados da equipe'
+                    ],
+                    medio: [
+                        'Assuma voluntariamente projetos desafiadores',
+                        'Desenvolva autonomia para resolver problemas',
+                        'Proponha melhorias nos processos da sua área'
+                    ],
+                    alto: [
+                        'Compartilhe suas práticas de comprometimento com a equipe',
+                        'Mentore colaboradores que precisam desenvolver este valor',
+                        'Continue sendo exemplo de dedicação e responsabilidade'
+                    ]
+                },
+                trabalho_seguro: {
+                    baixo: [
+                        'Participe ativamente de todos os treinamentos de segurança',
+                        'Revise diariamente as normas de segurança da sua função',
+                        'Observe colaboradores experientes e aprenda com suas práticas'
+                    ],
+                    medio: [
+                        'Torne-se multiplicador de boas práticas de segurança',
+                        'Sugira melhorias nos procedimentos de segurança',
+                        'Documente e compartilhe lições aprendidas'
+                    ],
+                    alto: [
+                        'Seja referência em segurança para toda a equipe',
+                        'Lidere campanhas e iniciativas de segurança',
+                        'Continue sendo vigilante e proativo na prevenção'
+                    ]
+                },
+                ambiente_saudavel: {
+                    baixo: [
+                        'Pratique escuta ativa com seus colegas',
+                        'Participe de atividades de integração da equipe',
+                        'Desenvolva inteligência emocional e empatia'
+                    ],
+                    medio: [
+                        'Seja mediador em situações de conflito',
+                        'Reconheça e valorize o trabalho dos colegas publicamente',
+                        'Promova momentos de descontração e integração'
+                    ],
+                    alto: [
+                        'Seja exemplo de relacionamento saudável',
+                        'Mentore outros sobre convivência respeitosa',
+                        'Continue promovendo clima positivo e colaborativo'
+                    ]
+                },
+                foco_resultado: {
+                    baixo: [
+                        'Aprenda a estabelecer metas SMART (específicas, mensuráveis, atingíveis)',
+                        'Acompanhe seus indicadores de desempenho regularmente',
+                        'Elimine distrações e melhore sua produtividade'
+                    ],
+                    medio: [
+                        'Busque otimizar processos e aumentar eficiência',
+                        'Compartilhe métricas de resultado com a equipe',
+                        'Antecipe problemas e proponha soluções preventivas'
+                    ],
+                    alto: [
+                        'Compartilhe suas estratégias de alta performance',
+                        'Auxilie na definição de metas desafiadoras para a equipe',
+                        'Continue superando expectativas e inspirando outros'
+                    ]
+                },
+                mentalidade_crescimento: {
+                    baixo: [
+                        'Encare erros como oportunidades de aprendizado',
+                        'Busque cursos e treinamentos na sua área',
+                        'Saia da zona de conforto aceitando novos desafios'
+                    ],
+                    medio: [
+                        'Compartilhe conhecimentos com a equipe',
+                        'Busque mentoria com profissionais mais experientes',
+                        'Desenvolva novas habilidades constantemente'
+                    ],
+                    alto: [
+                        'Seja mentor de outros colaboradores',
+                        'Lidere projetos de inovação e melhoria',
+                        'Continue sendo exemplo de evolução contínua'
+                    ]
+                }
+            };
+
+            const nivel = percentual < 55 ? 'baixo' : percentual < 75 ? 'medio' : 'alto';
+            return recomendacoesPorValor[valorId][nivel];
+        }
+
+        // Mostrar resultado
+        function mostrarResultado() {
+            const resultado = dadosColaborador.resultado;
+            const confiabilidade = dadosColaborador.analiseConfiabilidade;
+            
+            document.getElementById('etapa-avaliacao').classList.add('hidden');
+            document.getElementById('etapa-resultado').classList.remove('hidden');
+            
+            // Resultado geral
+            document.getElementById('resultado-nome-colaborador').textContent = dadosColaborador.nome;
+            document.getElementById('percentual-geral').textContent = resultado.mediaGeral + '%';
+            document.getElementById('percentual-geral').style.color = resultado.nivelGeral.cor;
+            
+            const nivelBadge = document.getElementById('nivel-geral');
+            nivelBadge.textContent = resultado.nivelGeral.texto;
+            nivelBadge.style.backgroundColor = resultado.nivelGeral.cor;
+            
+            document.getElementById('descricao-nivel').textContent = resultado.nivelGeral.descricao;
+
+            // Painel de Confiabilidade
+            const scoreConf = document.getElementById('score-confiabilidade');
+            scoreConf.textContent = confiabilidade.scoreConfiabilidade + '%';
+            scoreConf.className = 'confiabilidade-score ' + confiabilidade.nivel.classe;
+            scoreConf.innerHTML += `<div style="font-size: 18px; margin-top: 10px;">${confiabilidade.nivel.texto}</div>`;
+
+            // Indicadores
+            const indicadoresContainer = document.getElementById('indicadores-container');
+            indicadoresContainer.innerHTML = '';
+            
+            Object.keys(confiabilidade.indicadores).forEach(key => {
+                const ind = confiabilidade.indicadores[key];
+                const indDiv = document.createElement('div');
+                indDiv.className = 'indicador-item ' + ind.status;
+                indDiv.innerHTML = `
+                    <div class="indicador-label">${ind.label}</div>
+                    <div class="indicador-value">${ind.valor}</div>
+                    <div style="font-size: 12px; color: #666; margin-top: 5px;">${ind.descricao}</div>
+                `;
+                indicadoresContainer.appendChild(indDiv);
+            });
+
+            // Alertas
+            const alertasContainer = document.getElementById('alertas-container');
+            alertasContainer.innerHTML = '';
+            
+            if (confiabilidade.alertas.length > 0) {
+                const alertaBox = document.createElement('div');
+                alertaBox.className = 'alerta-box';
+                alertaBox.innerHTML = `
+                    <h4>⚠️ Pontos de Atenção Detectados:</h4>
+                    <ul>
+                        ${confiabilidade.alertas.map(alerta => `<li>${alerta}</li>`).join('')}
+                    </ul>
+                    <p style="margin-top: 15px; font-weight: 600; color: #1565C0;">
+                        📋 ${confiabilidade.recomendacaoRH}
+                    </p>
+                `;
+                alertasContainer.appendChild(alertaBox);
+            } else {
+                const okBox = document.createElement('div');
+                okBox.style.cssText = 'background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 15px; border-radius: 8px; margin-top: 15px;';
+                okBox.innerHTML = `
+                    <h4 style="color: #2E7D32; margin-bottom: 8px;">✅ Análise de Confiabilidade</h4>
+                    <p style="color: #388E3C;">${confiabilidade.recomendacaoRH}</p>
+                `;
+                alertasContainer.appendChild(okBox);
+            }
+            
+            // Valores
+            const valoresContainer = document.getElementById('valores-container');
+            valoresContainer.innerHTML = '';
+            
+            Object.keys(resultado.valores).forEach(valorKey => {
+                const valor = resultado.valores[valorKey];
+                
+                const valorDiv = document.createElement('div');
+                valorDiv.className = 'valor-resultado';
+                
+                valorDiv.innerHTML = `
+                    <div class="valor-resultado-header">
+                        <div>
+                            <h3>${valor.nome}</h3>
+                            <div class="valor-resultado-desc">${valor.descricao}</div>
+                        </div>
+                        <div class="valor-score">
+                            <div class="valor-percentual" style="color: ${valor.nivel.cor}">${valor.percentual}%</div>
+                            <div class="valor-badge" style="background-color: ${valor.nivel.cor}">${valor.nivel.texto}</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container" style="margin-bottom: 0;">
+                        <div class="progress-bar" style="width: ${valor.percentual}%; background-color: ${valor.nivel.cor}"></div>
+                    </div>
+                    ${valor.percentual < 85 ? `
+                        <div class="recomendacoes-box">
+                            <h4>⚡ Como melhorar neste valor:</h4>
+                            <ul>
+                                ${valor.recomendacoes.map(rec => `<li>${rec}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+                `;
+                
+                valoresContainer.appendChild(valorDiv);
+            });
+            
+            window.scrollTo(0, 0);
+        }
+
+        // Enviar resultado
+        function enviarResultado() {
+            const btn = document.getElementById('btn-enviar');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Enviando...';
+            
+            const resultado = dadosColaborador.resultado;
+            const confiabilidade = dadosColaborador.analiseConfiabilidade;
+            
+            // Preparar dados para o e-mail
+            const emailData = {
+                nome: dadosColaborador.nome,
+                cpf: dadosColaborador.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
+                data: new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR'),
+                tempoTotal: ((dadosColaborador.tempoFim - dadosColaborador.tempoInicio) / 60000).toFixed(1) + ' minutos',
+                mediaGeral: resultado.mediaGeral,
+                nivelGeral: resultado.nivelGeral.texto,
+                valores: resultado.valores,
+                confiabilidade: {
+                    score: confiabilidade.scoreConfiabilidade,
+                    nivel: confiabilidade.nivel.texto,
+                    indicadores: confiabilidade.indicadores,
+                    alertas: confiabilidade.alertas,
+                    recomendacao: confiabilidade.recomendacaoRH
+                }
+            };
+            
+            // Simular envio (em produção, chamar API real)
+            setTimeout(() => {
+                console.log('📧 Dados que seriam enviados para o RH:');
+                console.log(emailData);
+                
+                alert('✅ Resultado enviado com sucesso para o RH!\n\n' +
+                      'Score de Confiabilidade: ' + confiabilidade.scoreConfiabilidade + '%\n' +
+                      'Nível: ' + confiabilidade.nivel.texto + '\n\n' +
+                      'Você receberá um retorno em breve.');
+                
+                btn.disabled = false;
+                btn.innerHTML = '✓ Resultado Enviado';
+                btn.style.backgroundColor = '#8BC34A';
+            }, 2000);
+        }
+
+        // Máscara de CPF
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                e.target.value = value;
+            }
+        });
+    </script>
+</body>
+</html>
