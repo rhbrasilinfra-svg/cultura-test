@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avaliação de Aderência Cultural - Brasil Infra (Com Validação)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -24,34 +27,63 @@
         }
 
         .header {
-            background: #2B4366;
-            padding: 30px;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #1a2d47 0%, #2B4366 50%, #3a5580 100%);
+            padding: 50px 30px;
+            border-radius: 0px;
             margin-bottom: 30px;
             text-align: center;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '🏗️';
+            position: absolute;
+            right: -50px;
+            bottom: -50px;
+            font-size: 250px;
+            opacity: 0.08;
+            transform: rotate(-15deg);
         }
 
         .header h1 {
             color: #EDD730;
-            font-size: 32px;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-size: 48px;
+            margin-bottom: 15px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.2;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .header h2 {
             color: white;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 300;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .header .subtitle {
+            color: #EDD730;
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 15px;
+            opacity: 0.95;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .alert-info {
-            background: #E3F2FD;
-            border-left: 4px solid #2196F3;
+            background: #FFF9E6;
+            border-left: 4px solid #2B4366;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
-            color: #1565C0;
+            color: #2B4366;
             font-size: 14px;
             line-height: 1.6;
         }
@@ -336,15 +368,15 @@
 
         /* Painel de Confiabilidade */
         .confiabilidade-panel {
-            background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%);
-            border: 3px solid #9C27B0;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            border: 3px solid #2B4366;
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 30px;
         }
 
         .confiabilidade-panel h3 {
-            color: #6A1B9A;
+            color: #2B4366;
             font-size: 22px;
             margin-bottom: 15px;
             display: flex;
@@ -382,7 +414,7 @@
             background: white;
             padding: 15px;
             border-radius: 8px;
-            border-left: 4px solid #9C27B0;
+            border-left: 4px solid #2B4366;
         }
 
         .indicador-item.alerta {
@@ -405,7 +437,7 @@
         .indicador-value {
             font-size: 18px;
             font-weight: 700;
-            color: #6A1B9A;
+            color: #2B4366;
         }
 
         .alerta-box {
@@ -473,14 +505,14 @@
         }
 
         .recomendacoes-box {
-            background: #E3F2FD;
+            background: #FFF9E6;
             padding: 15px;
             border-radius: 8px;
             margin-top: 15px;
         }
 
         .recomendacoes-box h4 {
-            color: #1565C0;
+            color: #2B4366;
             margin-bottom: 10px;
             font-size: 16px;
         }
@@ -512,8 +544,8 @@
         }
 
         .info-icon {
-            background: #2196F3;
-            color: white;
+            background: #2B4366;
+            color: #EDD730;
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -575,8 +607,9 @@
         <!-- ETAPA 1: Identificação -->
         <div id="etapa-identificacao">
             <div class="header">
-                <h1>🏗️ Brasil Infra</h1>
-                <h2>Avaliação de Aderência Cultural</h2>
+                <h1>Avaliação de Aderência Cultural</h1>
+                <h2>Brasil Infra</h2>
+                <div class="subtitle">Construindo Progresso com Você</div>
             </div>
 
             <div class="card">
@@ -616,8 +649,9 @@
         <!-- ETAPA 2: Avaliação -->
         <div id="etapa-avaliacao" class="hidden">
             <div class="header">
-                <h1>🏗️ Brasil Infra</h1>
-                <h2>Avaliação de Aderência Cultural</h2>
+                <h1>Avaliação de Aderência Cultural</h1>
+                <h2>Brasil Infra</h2>
+                <div class="subtitle">Construindo Progresso com Você</div>
             </div>
 
             <div class="card">
@@ -637,14 +671,14 @@
                     <!-- As questões serão inseridas aqui dinamicamente -->
                 </div>
 
-                <button class="btn" onclick="finalizarAvaliacao()" id="btn-finalizar" disabled>Finalizar Avaliação</button>
+                <button class="btn" onclick="finalizarAvaliacao()" id="btn-finalizar" disabled>Finalizar Teste e Enviar Resultado para o RH</button>
             </div>
         </div>
 
         <!-- ETAPA 3: Resultado -->
         <div id="etapa-resultado" class="hidden">
             <div class="header">
-                <h1>🏗️ Brasil Infra</h1>
+                <h1>Avaliação de Aderência Cultural</h1>
                 <h2>Resultado da Avaliação</h2>
             </div>
 
@@ -692,7 +726,7 @@
                     <!-- Valores serão inseridos aqui -->
                 </div>
 
-                <button class="btn" onclick="enviarResultado()" id="btn-enviar">Enviar Resultado para o RH</button>
+                <!-- Botão removido - envio é automático ao finalizar -->
             </div>
         </div>
     </div>
@@ -1158,13 +1192,34 @@
         }
 
         // Finalizar avaliação
-        function finalizarAvaliacao() {
+        async function finalizarAvaliacao() {
+            // Confirmação simples
+            const confirmar = confirm(
+                '📊 FINALIZAR TESTE\n\n' +
+                'Você está prestes a finalizar e enviar seu resultado para o RH.\n\n' +
+                '⚠️ Após finalizar, não será possível refazer a avaliação.\n\n' +
+                'Deseja continuar?'
+            );
+            
+            if (!confirmar) {
+                return;
+            }
+            
+            // Atualizar botão para mostrar progresso
+            const btn = document.getElementById('btn-finalizar');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Finalizando e enviando...';
+            
             pararTimer();
             
             dadosColaborador.resultado = calcularResultado();
             dadosColaborador.analiseConfiabilidade = analisarConfiabilidade();
             
-            mostrarResultado();
+            // Enviar automaticamente para o RH
+            await enviarParaRH();
+            
+            // Depois mostrar resultado para o colaborador (SEM painel de confiabilidade)
+            mostrarResultadoColaborador();
         }
 
         // Obter nível de aderência
@@ -1323,7 +1378,7 @@
                     <ul>
                         ${confiabilidade.alertas.map(alerta => `<li>${alerta}</li>`).join('')}
                     </ul>
-                    <p style="margin-top: 15px; font-weight: 600; color: #1565C0;">
+                    <p style="margin-top: 15px; font-weight: 600; color: #2B4366;">
                         📋 ${confiabilidade.recomendacaoRH}
                     </p>
                 `;
@@ -1378,11 +1433,8 @@
             window.scrollTo(0, 0);
         }
 
-        // Enviar resultado
-        async function enviarResultado() {
-            const btn = document.getElementById('btn-enviar');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Enviando...';
+        // Enviar resultado automaticamente para o RH (função interna)
+        async function enviarParaRH() {
             
             const resultado = dadosColaborador.resultado;
             const confiabilidade = dadosColaborador.analiseConfiabilidade;
@@ -1422,7 +1474,7 @@
                     </ul>
                 ` : '<p style="color: #4CAF50;">✅ Nenhum alerta detectado - Respostas parecem confiáveis</p>'}
                 
-                <p style="background: #E3F2FD; padding: 10px; border-left: 4px solid #2196F3; margin-top: 15px;">
+                <p style="background: #FFF9E6; padding: 10px; border-left: 4px solid #2B4366; margin-top: 15px;">
                     <strong>📌 ${confiabilidade.recomendacaoRH}</strong>
                 </p>
                 
@@ -1493,27 +1545,159 @@
                     }
                 });
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert('✅ Resultado enviado com sucesso para o RH!\n\n' +
-                          'Score de Confiabilidade: ' + confiabilidade.scoreConfiabilidade + '%\n' +
-                          'Nível: ' + confiabilidade.nivel.texto + '\n\n' +
-                          'Você receberá um retorno em breve.');
-                    
-                    btn.innerHTML = '✓ Resultado Enviado';
-                    btn.style.backgroundColor = '#8BC34A';
-                } else {
+                if (!response.ok) {
+                    const data = await response.json();
                     throw new Error(data.error || 'Erro no envio do formulário');
                 }
+                
+                // Salvar no localStorage que já foi enviado
+                localStorage.setItem('avaliacaoEnviada', JSON.stringify({
+                    nome: dadosColaborador.nome,
+                    cpf: dadosColaborador.cpf,
+                    dataEnvio: new Date().toISOString(),
+                    scoreConfiabilidade: confiabilidade.scoreConfiabilidade,
+                    scoreGeral: resultado.mediaGeral
+                }));
+                
+                return true; // Envio bem-sucedido
+                
             } catch (error) {
                 console.error('Erro ao enviar:', error);
-                alert('❌ Erro ao enviar resultado. Por favor, tente novamente ou contate o RH.\n\nDetalhes técnicos: ' + error.message);
-                
-                btn.disabled = false;
-                btn.innerHTML = '🔄 Tentar Novamente';
-                btn.style.backgroundColor = '#F44336';
+                alert('❌ Erro ao enviar resultado para o RH.\n\n' + error.message + '\n\nVocê ainda pode ver seu resultado, mas precisará entrar em contato com o RH.');
+                return false; // Envio falhou
             }
+        }
+
+        // Mostrar resultado para o colaborador (SEM painel de confiabilidade)
+        function mostrarResultadoColaborador() {
+            const resultado = dadosColaborador.resultado;
+            const confiabilidade = dadosColaborador.analiseConfiabilidade;
+            const envioSucesso = localStorage.getItem('avaliacaoEnviada') !== null;
+            
+            document.getElementById('etapa-avaliacao').classList.add('hidden');
+            document.getElementById('etapa-resultado').classList.remove('hidden');
+            
+            // Banner de sucesso no topo
+            const bannerSuccesso = document.createElement('div');
+            bannerSuccesso.style.cssText = `
+                background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+                border: 3px solid #4CAF50;
+                border-radius: 12px;
+                padding: 30px;
+                margin-bottom: 30px;
+                text-align: center;
+                box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            `;
+            bannerSuccesso.innerHTML = `
+                <h2 style="color: #2E7D32; font-size: 32px; margin-bottom: 20px;">
+                    ✅ Teste Finalizado ${envioSucesso ? 'e Enviado' : ''} com Sucesso!
+                </h2>
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <p style="color: #388E3C; font-size: 18px; margin-bottom: 15px; font-weight: 600;">
+                        ${envioSucesso ? '📧 Seu resultado foi enviado para o RH da Brasil Infra' : '⚠️ Veja seu resultado abaixo'}
+                    </p>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 10px;">
+                        <strong>Nome:</strong> ${dadosColaborador.nome}<br>
+                        <strong>Score Geral:</strong> ${resultado.mediaGeral}% - ${resultado.nivelGeral.texto}<br>
+                        <strong>Data:</strong> ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}
+                    </p>
+                </div>
+                <div style="background: #FFF9E6; padding: 20px; border-radius: 8px; border-left: 4px solid #2B4366;">
+                    <p style="color: #2B4366; font-size: 16px; margin: 0; font-weight: 600;">
+                        📋 Próximos Passos
+                    </p>
+                    <p style="color: #2B4366; font-size: 14px; margin-top: 10px;">
+                        O RH da Brasil Infra analisará seu resultado e entrará em contato com você em breve.<br>
+                        <strong>Revise seu resultado abaixo e depois pode fechar esta página.</strong>
+                    </p>
+                </div>
+                <div style="background: #FFEBEE; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #F44336;">
+                    <p style="color: #C62828; font-size: 14px; margin: 0;">
+                        <strong>⚠️ Importante:</strong> Não é possível refazer esta avaliação ou alterar suas respostas.
+                    </p>
+                </div>
+            `;
+            
+            const resultadoContainer = document.querySelector('.resultado-container');
+            resultadoContainer.insertBefore(bannerSuccesso, resultadoContainer.firstChild);
+            
+            // Preencher cabeçalho do resultado
+            document.getElementById('resultado-nome-colaborador').textContent = dadosColaborador.nome;
+            document.getElementById('percentual-geral').textContent = resultado.mediaGeral + '%';
+            document.getElementById('percentual-geral').style.color = resultado.nivelGeral.cor;
+            
+            const nivelBadge = document.getElementById('nivel-geral');
+            nivelBadge.textContent = resultado.nivelGeral.texto;
+            nivelBadge.style.backgroundColor = resultado.nivelGeral.cor;
+            
+            document.getElementById('descricao-nivel').textContent = resultado.nivelGeral.descricao;
+
+            // OCULTAR o painel de confiabilidade do colaborador
+            const confiabilidadePanel = document.querySelector('.confiabilidade-panel');
+            if (confiabilidadePanel) {
+                confiabilidadePanel.style.display = 'none';
+            }
+
+            // Mostrar valores culturais
+            const valoresContainer = document.getElementById('valores-container');
+            valoresContainer.innerHTML = '';
+            
+            Object.keys(resultado.valores).forEach(valorKey => {
+                const valor = resultado.valores[valorKey];
+                const valorDiv = document.createElement('div');
+                valorDiv.className = 'valor-resultado';
+                valorDiv.innerHTML = `
+                    <div class="valor-resultado-header">
+                        <div>
+                            <h3>${valor.nome}</h3>
+                            <div class="valor-resultado-desc">${valor.descricao}</div>
+                        </div>
+                        <div class="valor-score">
+                            <div class="valor-percentual" style="color: ${valor.nivel.cor}">${valor.percentual}%</div>
+                            <div class="valor-badge" style="background-color: ${valor.nivel.cor}">${valor.nivel.texto}</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: ${valor.percentual}%; background-color: ${valor.nivel.cor}"></div>
+                    </div>
+                    ${valor.percentual < 85 ? `
+                        <div class="recomendacoes-box">
+                            <h4>⚡ Como melhorar:</h4>
+                            <ul>${valor.recomendacoes.map(r => `<li>${r}</li>`).join('')}</ul>
+                        </div>
+                    ` : ''}
+                `;
+                valoresContainer.appendChild(valorDiv);
+            });
+            
+            // Remover botão de envio (já foi enviado)
+            const btnEnviar = document.getElementById('btn-enviar');
+            if (btnEnviar) {
+                btnEnviar.remove();
+            }
+            
+            // Remover aviso amarelo (não é mais necessário)
+            const avisos = document.querySelectorAll('[style*="background: #FFF3CD"]');
+            avisos.forEach(aviso => {
+                if (aviso.textContent.includes('Atenção: Ação Final')) {
+                    aviso.remove();
+                }
+            });
+            
+            // Bloquear navegação para trás
+            window.history.pushState(null, '', window.location.href);
+            window.onpopstate = function() {
+                window.history.pushState(null, '', window.location.href);
+                alert('⚠️ Seu teste já foi finalizado.\n\nNão é possível voltar ou refazer a avaliação.');
+            };
+            
+            // Bloquear F5 e Ctrl+R
+            window.onbeforeunload = function(e) {
+                e.preventDefault();
+                return 'Seu teste já foi finalizado. Tem certeza que deseja sair?';
+            };
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Máscara de CPF
@@ -1521,6 +1705,44 @@
             let value = e.target.value.replace(/\D/g, '');
             if (value.length <= 11) {
                 e.target.value = value;
+            }
+        });
+
+        // Verificar ao carregar a página se já foi feito
+        window.addEventListener('DOMContentLoaded', function() {
+            const avaliacaoEnviada = localStorage.getItem('avaliacaoEnviada');
+            
+            if (avaliacaoEnviada) {
+                const dados = JSON.parse(avaliacaoEnviada);
+                const dataEnvio = new Date(dados.dataEnvio);
+                const agora = new Date();
+                const diffHoras = (agora - dataEnvio) / (1000 * 60 * 60);
+                
+                // Se foi enviado nas últimas 24 horas, bloquear
+                if (diffHoras < 24) {
+                    document.body.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f5f5f5; padding: 20px;">
+                            <div style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 600px; text-align: center;">
+                                <div style="font-size: 64px; margin-bottom: 20px;">⚠️</div>
+                                <h2 style="color: #2B4366; margin-bottom: 20px;">Avaliação Já Realizada</h2>
+                                <p style="color: #666; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+                                    Você já completou e enviou esta avaliação em:<br>
+                                    <strong>${dataEnvio.toLocaleDateString('pt-BR')} às ${dataEnvio.toLocaleTimeString('pt-BR')}</strong>
+                                </p>
+                                <div style="background: #FFF9E6; padding: 20px; border-radius: 8px; border-left: 4px solid #2B4366; margin-top: 20px;">
+                                    <p style="color: #2B4366; margin: 0;">
+                                        <strong>Nome:</strong> ${dados.nome}<br>
+                                        <strong>Score Geral:</strong> ${dados.scoreGeral}%
+                                    </p>
+                                </div>
+                                <p style="color: #666; font-size: 14px; margin-top: 20px;">
+                                    Não é possível realizar a avaliação novamente.<br>
+                                    O RH da Brasil Infra entrará em contato com você em breve.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                }
             }
         });
     </script>
